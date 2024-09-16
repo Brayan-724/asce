@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, packages, lib, ...}: {
   boot = {
     # use latest kernel
     kernelPackages = pkgs.linuxPackages_latest;
@@ -10,6 +10,15 @@
       enable = true;
       device = "/dev/sda";
       useOSProber = true;
+
+      theme = pkgs.catppuccin-grub;
+    };
+
+    # Boot progress bar
+    plymouth = {
+      enable = true;
+      theme = "mac-style";
+      themePackages = [ packages.mac-style ];
     };
 
     # load modules on boot

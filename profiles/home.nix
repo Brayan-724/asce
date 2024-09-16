@@ -2,10 +2,15 @@
   username,
   homefile ? {},
   extra ? {},
-}: {pkgs, ...}: {
+}: {inputs, system, pkgs, ...}: {
   home-manager = {
+
     useGlobalPkgs = true;
     useUserPackages = true;
+
+    extraSpecialArgs = {
+      packages = inputs.self.packages.${system};
+    };
 
     users.${username} = {
       imports = [homefile extra];

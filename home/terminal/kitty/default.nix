@@ -1,10 +1,11 @@
-{...}: {
+{packages, ...}: {
   programs.kitty = {
     enable = true;
 
     font = {
-      name = "VictorMono";
-      size = 9;
+      name = "Miracode Nerd Font";
+      size = 8;
+      package = packages.miracode;
     };
 
     settings = {

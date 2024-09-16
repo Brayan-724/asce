@@ -11,6 +11,7 @@
 
       maple-mono-SC-NF
 
+      packages.miracode
       packages.SF-Pro
 
       # nerdfonts

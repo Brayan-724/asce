@@ -23,12 +23,34 @@
       ripgrep
       xclip
 
+      alejandra
+      nil
+      typescript-language-server
+      svelte-language-server
+      vscode-langservers-extracted
+
       packages.thorium
       inputs.zen-browser.packages."${system}".generic
     ];
   };
 
-  services.displayManager.sddm.enable = true;
+  programs.adb.enable = true;
+
+  services.displayManager.sddm = {
+    enable = true;
+    theme = "catppuccin-mocha";
+    package = pkgs.kdePackages.sddm;
+  };
+
+  environment.systemPackages = with pkgs; [
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      font  = "Noto Sans";
+      fontSize = "9";
+      # background = "${../../suzume_door.jpg}";
+      loginBackground = true;
+    })
+  ];
 
   programs.sway = {
     enable = true;
