@@ -3,6 +3,7 @@
 {
   imports = [
     ./boot.nix
+    ./avahi.nix
     ./security.nix
   ];
 

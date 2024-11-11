@@ -1,10 +1,9 @@
-{
+{pkgs, ...}: {
   programs.zellij = {
     enable = true;
     settings = {
       default_layout = "compact";
-
-      mouse_mode = false;
+      default_shell = "${pkgs.nushell}/bin/nu";
       pane_frames = false;
     };
   };

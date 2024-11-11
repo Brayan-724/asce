@@ -2,13 +2,14 @@
   username,
   homefile ? {},
   extra ? {},
-}: {inputs, system, pkgs, ...}: {
+}: {inputs, system, ...}: {
   home-manager = {
 
     useGlobalPkgs = true;
     useUserPackages = true;
 
     extraSpecialArgs = {
+      inherit inputs;
       packages = inputs.self.packages.${system};
     };
 

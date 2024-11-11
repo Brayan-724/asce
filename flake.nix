@@ -68,6 +68,7 @@
     systems.url = "github:nix-systems/default-linux";
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nix-std.url = "github:chessai/nix-std";
 
     flake-compat.url = "github:edolstra/flake-compat";
 
@@ -82,12 +83,6 @@
     };
 
     # rest of inputs, alphabetical order
-
-    androidpkgs = {
-      url = "github:tadfisher/android-nixpkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
 
     fenix.url = "github:nix-community/fenix";
 
@@ -114,20 +109,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Wine, Proton, Rocket League, Osu!, Star Citizen, Viper (Titan Fall 2)
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.flake-parts.follows = "flake-parts";
-    };
-
     nix-vscode-extensions = {
       url = "github:nix-community/nix-vscode-extensions";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
 
-    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
-    
     zen-browser.url = "github:MarceColl/zen-browser-flake";
   };
 }

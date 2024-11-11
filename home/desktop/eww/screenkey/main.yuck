@@ -1,0 +1,21 @@
+(defvar keys "")
+(defvar mouse_left '#282c34')
+(defvar mouse_right '#282c34')
+(defvar mouse_middle '#282c34')
+(defvar mouse_wheel '0')
+
+(defwidget key [?l v]
+    (label :class {l == true ? 'keybox last' : 'keybox'} :text {v})
+)
+
+(defwidget key_list []
+    (literal :content keys)
+)
+
+(defwindow screenkey
+    :wm-ignore true
+    :geometry (geometry :y "-5%" :anchor "bottom center")
+    (box :orientation "h" :spacing 10 :space-evenly false
+        (key_list)
+    )
+)

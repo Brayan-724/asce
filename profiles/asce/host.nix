@@ -24,10 +24,14 @@
       xclip
 
       alejandra
-      nil
+      nixd
+
+      deno
       typescript-language-server
       svelte-language-server
       vscode-langservers-extracted
+
+      flatpak
 
       packages.thorium
       inputs.zen-browser.packages."${system}".generic
