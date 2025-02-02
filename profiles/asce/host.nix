@@ -35,15 +35,35 @@
 
       packages.thorium
       inputs.zen-browser.packages."${system}".generic
+
+      docker-compose
+      ouch
+      prismlauncher
+      yazi
+
+      # Gitea
+      taplo
+      tea
+      git-credential-manager
     ];
   };
 
   programs.adb.enable = true;
+  programs.obs-studio.enable = true;
+  programs.obs-studio.enableVirtualCamera = true;
+  programs.steam.enable = true;
+
+  services.postgresql.enable = true;
 
   services.displayManager.sddm = {
     enable = true;
     theme = "catppuccin-mocha";
     package = pkgs.kdePackages.sddm;
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
   };
 
   environment.systemPackages = with pkgs; [

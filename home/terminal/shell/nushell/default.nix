@@ -8,7 +8,7 @@
       ns = "${pkgs.nh}/bin/nh os switch --ask -H asce -- --show-trace";
       glol = "${pkgs.git}/bin/git log --graph --all --decorate --format=format:'%C(dim)%h - %C(reset)%C(bold cyan)%ah %C(green)(%ar)%C(yellow)%d%C(reset)%n          %s%C(dim
 white) - %an%C(reset)'";
-      nix-zellij = "nix develop -c zellij attach --create";
+      nix-zellij = "nix develop --impure -c zellij attach --create (basename (pwd))";
     };
 
     environmentVariables = {
@@ -27,9 +27,8 @@ white) - %an%C(reset)'";
 
       $env.config.show_banner = false;
 
-      use std
-
-      std ellie
+      use std;
+      std ellie;
   '';
   };
 

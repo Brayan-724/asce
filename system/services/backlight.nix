@@ -3,7 +3,7 @@
   hardware.brillo.enable = true;
 
   services.clight = {
-    enable = true;
+    enable = false;
     settings = {
       verbose = true;
       backlight.disabled = true;

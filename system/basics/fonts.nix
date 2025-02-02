@@ -3,6 +3,7 @@
     packages = with pkgs; [
       # icon fonts
       material-symbols
+
       # normal fonts
       noto-fonts
       noto-fonts-cjk
@@ -31,10 +32,6 @@
         enable = true;
         autohint = false;
         style = "full";
-      };
-      subpixel = {
-        lcdfilter = "default";
-        rgba = "rgb";
       };
       defaultFonts = {
         serif = ["SF Pro Text" "Noto Color Emoji"];

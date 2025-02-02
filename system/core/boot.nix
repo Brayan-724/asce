@@ -1,4 +1,4 @@
-{pkgs, packages, lib, ...}: {
+{pkgs, packages, ...}: {
   boot = {
     # use latest kernel
     kernelPackages = pkgs.linuxPackages_latest;
