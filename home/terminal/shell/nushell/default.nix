@@ -8,12 +8,13 @@
       ns = "${pkgs.nh}/bin/nh os switch --ask -H asce -- --show-trace";
       glol = "${pkgs.git}/bin/git log --graph --all --decorate --format=format:'%C(dim)%h - %C(reset)%C(bold cyan)%ah %C(green)(%ar)%C(yellow)%d%C(reset)%n          %s%C(dim
 white) - %an%C(reset)'";
-      nix-zellij = "nix develop --impure -c zellij attach --create (basename (pwd))";
+      nix-zellij = "nix develop --impure -c zellij attach --create";
     };
 
     environmentVariables = {
       SHELL = ''${pkgs.nushell}/bin/nu'';
       EDITOR = ''${if config.programs.neovim.enable then "${config.programs.neovim.package}/bin/nvim" else "nano"}'';
+      GCM_CREDENTIAL_STORE = "cache";
     };
 
     extraConfig = let

@@ -37,6 +37,7 @@
       inputs.zen-browser.packages."${system}".generic
 
       docker-compose
+      nix-output-monitor
       ouch
       prismlauncher
       yazi
@@ -64,6 +65,14 @@
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
+  };
+
+  environment.variables = {
+    GCM_CREDENTIAL_STORE = "cache";
+  };
+
+  environment.sessionVariables = {
+    GCM_CREDENTIAL_STORE = "cache";
   };
 
   environment.systemPackages = with pkgs; [
