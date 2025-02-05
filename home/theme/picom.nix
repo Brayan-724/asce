@@ -21,6 +21,7 @@
         { match = "window_type@ *= 'menu'"; opacity = 1.0; shadow = false; },
         { match = "role *?= 'popup'"; opacity = 1.0; shadow = false; },
         { match = "window_type = 'dock'"; shadow = false; },
+        { match = "fullscreen"; opacity = 1.0; },
       );
       shadow = true;
       shadow-exclude = [  ];
