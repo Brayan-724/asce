@@ -30,7 +30,7 @@
   time.hardwareClockInLocalTime = lib.mkDefault false;
 
   services.pipewire.enable = lib.mkForce false;
-  hardware.pulseaudio.enable = lib.mkForce true;
+  services.pulseaudio.enable = lib.mkForce true;
 
   # services.flatpak.enable = true;
 

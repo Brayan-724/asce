@@ -6,7 +6,7 @@
 
       # normal fonts
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       roboto
 
@@ -16,7 +16,10 @@
       packages.SF-Pro
 
       # nerdfonts
-      (nerdfonts.override {fonts = ["GeistMono" "ZedMono" "NerdFontsSymbolsOnly" "VictorMono"];})
+      nerd-fonts.geist-mono
+      nerd-fonts.zed-mono
+      nerd-fonts.symbols-only
+      nerd-fonts.victor-mono
     ];
 
     # causes more issues than it solves
