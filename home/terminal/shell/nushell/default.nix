@@ -15,6 +15,7 @@ white) - %an%C(reset)'";
       SHELL = ''${pkgs.nushell}/bin/nu'';
       EDITOR = ''${if config.programs.neovim.enable then "${config.programs.neovim.package}/bin/nvim" else "nano"}'';
       GCM_CREDENTIAL_STORE = "cache";
+      NIX_OZONE_WL = "1";
     };
 
     extraConfig = let

@@ -4,6 +4,7 @@
 
     ./desktop/cursor.nix
     ./desktop/eww
+    ./desktop/sway
     ./editor/neovim
     ./editor/vscode
     ./terminal/kitty

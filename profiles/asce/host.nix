@@ -2,6 +2,7 @@
   inputs,
   packages,
   pkgs,
+  lib,
   system,
   ...
 }: {
@@ -46,6 +47,12 @@
       taplo
       tea
       git-credential-manager
+
+      alacritty
+      fuzzel
+      swaylock
+      cmake
+      gnumake
     ];
   };
 
@@ -62,6 +69,10 @@
     package = pkgs.kdePackages.sddm;
   };
 
+  services.xserver.desktopManager.gnome = {
+    enable = true;
+  };
+
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true;
@@ -69,10 +80,12 @@
 
   environment.variables = {
     GCM_CREDENTIAL_STORE = "cache";
+    NIX_OZONE_WL = "1";
   };
 
-  environment.sessionVariables = {
+ environment.sessionVariables = {
     GCM_CREDENTIAL_STORE = "cache";
+    NIX_OZONE_WL = "1";
   };
 
   environment.systemPackages = with pkgs; [
@@ -85,18 +98,24 @@
     })
   ];
 
+  programs.niri.enable = true;
+
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
     xwayland.enable = true;
   };
 
+  xdg.portal.wlr.enable = lib.mkForce true;
+  programs.xwayland.enable = lib.mkForce true;
+
   services.xserver = {
     enable = true;
 
     xkb = {
-      layout = "us";
-      variant = "altgr-intl";
+      layout = "us,latam";
+      variant = "altgr-intl,";
+      options = "grp:alt_space_toggle";
     };
 
     windowManager.awesome = {
