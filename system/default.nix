@@ -1,6 +1,6 @@
 {
   imports = [
-    ./hardware-configuration.nix
+    ./betty/hardware-configuration.nix
 
     ./core
     ./hardware

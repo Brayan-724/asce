@@ -29,8 +29,17 @@
   time.timeZone = lib.mkForce "America/Hermosillo";
   time.hardwareClockInLocalTime = lib.mkDefault false;
 
-  services.pipewire.enable = lib.mkForce false;
-  services.pulseaudio.enable = lib.mkForce true;
+  #services.pipewire.enable = lib.mkForce false;
+  #services.pulseaudio.enable = lib.mkForce true;
+
+  services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
 
   # services.flatpak.enable = true;
 
