@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{
   users.users.apika = {
     description = "Apika Luca";
     isNormalUser = true;
@@ -11,6 +11,7 @@
       "transmission"
       "video"
       "wheel"
+      "docker"
     ];
   };
 }

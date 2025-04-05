@@ -4,9 +4,11 @@
 
     ./desktop/cursor.nix
     ./desktop/eww
+    ./desktop/leftwm
     ./desktop/sway
     ./editor/neovim
     ./editor/vscode
+    ./terminal/foot
     ./terminal/kitty
     ./terminal/rio
     ./terminal/gadgets/gitui.nix

@@ -10,7 +10,7 @@
       noto-fonts-emoji
       roboto
 
-      maple-mono-SC-NF
+      maple-mono.NF-CN
 
       packages.miracode
       packages.SF-Pro

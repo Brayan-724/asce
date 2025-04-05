@@ -1,6 +1,6 @@
 {pkgs, ...}: {
-  home.pointerCursor.name = "catppuccin-mocha-mauve-cursors";
-  home.pointerCursor.package = pkgs.catppuccin-cursors.mochaMauve;
-  gtk.cursorTheme.name = "catppuccin-mocha-mauve-cursors";
-  gtk.cursorTheme.package = pkgs.catppuccin-cursors.mochaMauve;
+  home.pointerCursor.name = "phinger-cursors-light";
+  home.pointerCursor.package = pkgs.phinger-cursors;
+  gtk.cursorTheme.name = "phinger-cursors-light";
+  gtk.cursorTheme.package = pkgs.phinger-cursors;
 }
