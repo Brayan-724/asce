@@ -122,5 +122,7 @@
       enable = true;
       package = pkgs.awesome-git;
     };
+
+    windowManager.leftwm.enable = true;
   };
 }

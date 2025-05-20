@@ -1,6 +1,6 @@
 final: prev: {
   awesome-git = prev.awesome.overrideAttrs (old: {
-    # https://github.com/awesomeWm/awesome
+    # https://github.com/awesomeWM/awesome
     src = final.fetchFromGitHub {
       owner = "awesomeWM";
       repo = "awesome";

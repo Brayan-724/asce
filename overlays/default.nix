@@ -1,3 +1,1 @@
-{
-  imports = [./awesome.nix];
-}
+final: prev: (import ./awesome.nix final prev)
