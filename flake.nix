@@ -1,86 +1,44 @@
 {
   description = "Apika's Config for NixOS";
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    hm,
-    fenix,
-    ...
-  }: let
-    hostName = "asce";
-    system = "x86_64-linux";
-    systems = ["x86_64-linux"];
+  outputs = inputs @ {amix, ...}:
+    import amix {
+      inherit inputs;
+      hmFlake = inputs.hm;
 
-    forEachSystem = nixpkgs.lib.genAttrs systems;
-    selfPackages = forEachSystem (
-      system:
-        import ./pkgs {pkgs = import nixpkgs {inherit system;};}
-    );
+      pkgsConfig = {
+        allowUnfree = true;
+      };
 
-    pkgs = nixpkgs.legacyPackages.${system};
-  in {
-    packages = selfPackages;
+      profiles = ./amix-profiles;
+      modules = ./amix-modules;
 
-    overlays.default = import ./overlays/awesome.nix;
+      overlays = ./overlays;
+      packages = ./pkgs;
 
-    nixosConfigurations = {
-      asce = inputs.nixpkgs.lib.nixosSystem {
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-
-          config = {
-            allowUnfree = true;
-          };
+      flakeSystems = ["x86_64-linux"];
+      forFlake = system: pkgs: {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            alejandra
+            nixd
+            git
+            ripgrep
+          ];
         };
-
-        specialArgs = {
-          inherit inputs system;
-
-          packages = selfPackages.${system};
-        };
-
-        modules = [
-          ./system
-
-          {nixpkgs.overlays = [self.overlays.default fenix.overlays.default];}
-
-          ./profiles/host.nix
-          ./profiles/${hostName}/host.nix
-
-          hm.nixosModules.home-manager
-          ./profiles/${hostName}/home.nix
-        ];
       };
     };
-
-    devShells.${system} = {
-      default = pkgs.mkShell {
-        packages = [pkgs.alejandra pkgs.nil pkgs.git pkgs.ripgrep];
-        name = "nixland";
-        DIRENV_LOG_FORMAT = "";
-      };
-    };
-  };
 
   inputs = {
-    # global, so they can be `.follow`ed
-    systems.url = "github:nix-systems/default-linux";
+    amix.url = "./amix";
 
+    # global, so they can be `.follow`ed
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-std.url = "github:chessai/nix-std";
 
     flake-compat.url = "github:edolstra/flake-compat";
-
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
-    };
-
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
+    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     # rest of inputs, alphabetical order
 
