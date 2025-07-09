@@ -1,10 +1,14 @@
-{pkgs, packages, ...}: {
+{
+  pkgs,
+  packages,
+  ...
+}: {
   boot = {
     # use latest kernel
     kernelPackages = pkgs.linuxPackages_latest;
-    
+
     tmp.cleanOnBoot = true;
-    
+
     # Bootloader
     loader = {
       efi = {
@@ -14,7 +18,7 @@
       };
       grub = {
         enable = true;
-        devices = [ "nodev" ];
+        devices = ["nodev"];
         efiSupport = true;
         useOSProber = true;
       };
@@ -24,7 +28,7 @@
     plymouth = {
       enable = true;
       theme = "mac-style";
-      themePackages = [ packages.mac-style ];
+      themePackages = [packages.mac-style];
     };
 
     # load modules on boot

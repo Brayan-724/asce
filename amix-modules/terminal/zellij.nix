@@ -3,11 +3,15 @@
   pkgs,
   amixTypes,
   amixLib,
+  amixEnums,
   ...
 }: {
+  amix.enum.zellij-theme = amixTypes.defineEnum "Zellij Theme" [];
+
   options.zellij = with amixTypes; {
     inherit enable;
     pkg = pkg pkgs.zellij;
+    theme = enum amixEnums.zellij-theme;
   };
 
   amix.aliases = {

@@ -33,12 +33,12 @@
       right = "l";
 
       assigns = {
-        "4: Discord" = [{ title = ".*Discord"; }];
+        "4: Discord" = [{title = ".*Discord";}];
       };
 
       startup = [
-        { command = "discord"; }
-        { command = "firefox"; }
+        {command = "discord";}
+        {command = "firefox";}
       ];
 
       gaps = {
@@ -85,13 +85,15 @@
       window = {
         titlebar = false;
         hideEdgeBorders = "both";
-        commands = let for_window = criteria: command: {inherit criteria command;}; in [
-          (for_window { shell = "xwayland"; } ''title_format "[XWayland] %title"'')
-          (for_window { all = true; } ''opacity 0.8'')
-          (for_window { all = true; } ''border none'')
-          (for_window { all = true; } ''blur enable'')
-          (for_window { all = true; } ''blur_radius 1'')
-          (for_window { all = true; } ''corner_radius 12'')
+        commands = let
+          for_window = criteria: command: {inherit criteria command;};
+        in [
+          (for_window {shell = "xwayland";} ''title_format "[XWayland] %title"'')
+          (for_window {all = true;} ''opacity 0.8'')
+          (for_window {all = true;} ''border none'')
+          (for_window {all = true;} ''blur enable'')
+          (for_window {all = true;} ''blur_radius 1'')
+          (for_window {all = true;} ''corner_radius 12'')
         ];
       };
     };

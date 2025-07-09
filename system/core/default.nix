@@ -44,8 +44,8 @@
   # services.flatpak.enable = true;
 
   # TODO: compresses half the ram for use as swap
-#  zramSwap = {
-#    enable = true;
-#    algorithm = "zstd";
-#  };
+  #  zramSwap = {
+  #    enable = true;
+  #    algorithm = "zstd";
+  #  };
 }

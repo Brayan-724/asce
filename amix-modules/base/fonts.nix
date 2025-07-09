@@ -1,9 +1,5 @@
-{
-  packages,
-  pkgs,
-  ...
-}: {
-  fonts = {
+{pkgs, ...}: {
+  nixos.fonts = {
     packages = with pkgs; [
       # icon fonts
       material-symbols
@@ -13,11 +9,11 @@
       noto-fonts-cjk-sans
       noto-fonts-emoji
       roboto
+      SF-Pro
 
+      # Monospaced
       maple-mono.NF-CN
-
-      packages.miracode
-      packages.SF-Pro
+      miracode
 
       # nerdfonts
       nerd-fonts.geist-mono
@@ -42,7 +38,7 @@
       };
       defaultFonts = {
         serif = ["SF Pro Text" "Noto Color Emoji"];
-        sansSerif = ["SF Pro DIsplay" "Noto Color Emoji"];
+        sansSerif = ["SF Pro Display" "Noto Color Emoji"];
         monospace = ["GeistMono Nerd Font" "Noto Color Emoji"];
         emoji = ["Noto Color Emoji"];
       };

@@ -1,4 +1,9 @@
-{config, lib, pkgs, ...}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs.carapace.enable = true;
 
   programs.nushell = {
@@ -13,7 +18,11 @@ white) - %an%C(reset)'";
 
     environmentVariables = {
       SHELL = ''${pkgs.nushell}/bin/nu'';
-      EDITOR = ''${if config.programs.neovim.enable then "${config.programs.neovim.package}/bin/nvim" else "nano"}'';
+      EDITOR = ''${
+          if config.programs.neovim.enable
+          then "${config.programs.neovim.package}/bin/nvim"
+          else "nano"
+        }'';
       GCM_CREDENTIAL_STORE = "cache";
       NIX_OZONE_WL = "1";
     };
@@ -31,7 +40,7 @@ white) - %an%C(reset)'";
 
       use std;
       std ellie;
-  '';
+    '';
   };
 
   programs.starship = {

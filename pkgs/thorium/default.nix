@@ -164,8 +164,8 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "Compiler-optimized Chromium fork";
     homepage = "https://thorium.rocks";
-    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    maintainers = with maintainers; [ rgri ];
+    sourceProvenance = with sourceTypes; [binaryNativeCode];
+    maintainers = with maintainers; [rgri];
     license = licenses.bsd3;
     platforms = ["x86_64-linux"];
     mainProgram = "thorium-browser";

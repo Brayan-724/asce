@@ -1,4 +1,10 @@
-{ pkgs, stdenv, lib, fetchurl, ... }: let
+{
+  pkgs,
+  stdenv,
+  lib,
+  fetchurl,
+  ...
+}: let
   version = "1.0";
 in
   stdenv.mkDerivation {

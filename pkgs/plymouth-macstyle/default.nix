@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { } }:
+{pkgs ? import <nixpkgs> {}}:
 pkgs.stdenv.mkDerivation {
   pname = "mac-style";
   version = "0.1.0";
@@ -10,7 +10,7 @@ pkgs.stdenv.mkDerivation {
     sha256 = "sha256-yOvZ4F5ERPfnSlI/Scf9UwzvoRwGMqZlrHkBIB3Dm/w=";
   };
 
-  buildInputs = with pkgs; [ git ];
+  buildInputs = with pkgs; [git];
 
   installPhase = ''
     mkdir -p $out/share/plymouth/themes/mac-style

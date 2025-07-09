@@ -3,12 +3,12 @@
     "amix": {
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-yXnsB7Pfc66k8rvC7Fg5D9q+l55aWxlsSZ4ZTO91NqI=",
-        "path": "/nix/store/llhcjxvnkxy46jgan3a7wz8pvn5agk4n-source/amix",
+        "narHash": "sha256-gyjRu5fzMTXkV5z96LvPBigLZfek9TRSL8ygARC4Qgw=",
+        "path": "/nix/store/00p4frsb7fn687gymrkcayy3v9pp6097-source/amix",
         "type": "path"
       },
       "original": {
-        "path": "/nix/store/llhcjxvnkxy46jgan3a7wz8pvn5agk4n-source/amix",
+        "path": "/nix/store/00p4frsb7fn687gymrkcayy3v9pp6097-source/amix",
         "type": "path"
       }
     },

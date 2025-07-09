@@ -1,4 +1,8 @@
-{ lib, stdenv, ... }:
+{
+  lib,
+  stdenv,
+  ...
+}:
 stdenv.mkDerivation {
   pname = "miracode-complete";
   version = "1.0";

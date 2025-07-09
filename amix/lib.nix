@@ -132,9 +132,9 @@ rec {
       filePath = /${basePath}/${file};
     in
       if fileKind == "directory"
-      then import /${filePath}/default.nix
+      then /${filePath}/default.nix
       else if fileKind == "regular"
-      then import filePath
+      then filePath
       else null;
 
     resolvePaths = value: let
@@ -144,11 +144,26 @@ rec {
       then
         pipe [
           (builtins.mapAttrs (resolvePath value))
-          (builtins.mapAttrs (name: value: {inherit name value;}))
+          (builtins.mapAttrs (name: _file: {
+            inherit _file name;
+            value = import _file;
+          }))
           builtins.attrValues
-          (builtins.filter ({value, ...}: value != null))
+          (builtins.filter ({_file, ...}: _file != null))
+          (builtins.map ({
+            _file,
+            name,
+            value,
+            ...
+          }: {
+            inherit name;
+            value = {
+              inherit _file;
+              modName = removeSuffix ".nix" name;
+              value = toFunction value;
+            };
+          }))
           builtins.listToAttrs
-          (builtins.mapAttrs (const toFunction))
         ]
         (builtins.readDir value)
       else if valueType == "regular"
@@ -163,7 +178,25 @@ rec {
     if builtins.typeOf values == "path" || builtins.typeOf values == "string"
     then resolvePaths values
     else if builtins.typeOf values == "list"
-    then builtins.concatMap resolve values
+    then
+      pipe [
+        inspect
+      ]
+      (
+        reduceMergeAttrs (
+          builtins.map (pipe [
+            resolve
+            attrsToList
+            (builtins.map ({value, ...}: {
+              inherit value;
+              name = toString value._file;
+            }))
+            builtins.listToAttrs
+            deepForce
+          ])
+          values
+        )
+      )
     else if builtins.typeOf values == "lambda" || builtins.typeOf values == "set"
     then {${name} = toFunction values;}
     else abort "${name}s should be path-like, list, attrset or lambda.";

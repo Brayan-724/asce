@@ -83,7 +83,7 @@
     NIX_OZONE_WL = "1";
   };
 
- environment.sessionVariables = {
+  environment.sessionVariables = {
     GCM_CREDENTIAL_STORE = "cache";
     NIX_OZONE_WL = "1";
   };
@@ -91,7 +91,7 @@
   environment.systemPackages = with pkgs; [
     (catppuccin-sddm.override {
       flavor = "mocha";
-      font  = "Noto Sans";
+      font = "Noto Sans";
       fontSize = "9";
       # background = "${../../suzume_door.jpg}";
       loginBackground = true;

@@ -1,23 +1,25 @@
-{inputs, pkgs, ...}:
-let
-  marketplace = inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace;
-in 
 {
+  inputs,
+  pkgs,
+  ...
+}: let
+  marketplace = inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace;
+in {
   programs.vscode = {
     enable = true;
     enableExtensionUpdateCheck = true;
     enableUpdateCheck = false;
     mutableExtensionsDir = true;
-    extensions = 
+    extensions =
       (with pkgs.vscode-extensions; [
         dart-code.flutter
 
-	catppuccin.catppuccin-vsc-icons
-	catppuccin.catppuccin-vsc
+        catppuccin.catppuccin-vsc-icons
+        catppuccin.catppuccin-vsc
       ])
       ++ (with marketplace; [
-      ]);
-    
+        ]);
+
     userSettings = {
       "editor.fontFamily" = "GeistMono Nerd Font, Catppuccin Mocha, 'monospace', monospace";
       "editor.fontSize" = 14;

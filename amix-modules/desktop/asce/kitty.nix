@@ -1,11 +1,9 @@
-{packages, ...}: {
-  programs.kitty = {
-    enable = true;
-
+{pkgs, ...}: {
+  home.programs.kitty = {
     font = {
       name = "Miracode Nerd Font";
       size = 9;
-      package = packages.miracode;
+      package = pkgs.miracode;
     };
 
     settings = {

@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  mac-style = pkgs.callPackage ./plymouth-macstyle { };
+  mac-style = pkgs.callPackage ./plymouth-macstyle {};
   miracode = pkgs.callPackage ./miracode {inherit (pkgs) stdenv;};
   # instant repl with automatic flake loading
   repl = pkgs.callPackage ./repl {};

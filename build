@@ -1,0 +1,7 @@
+#!/usr/bin/env nu
+
+def "main check" [] {
+ nix flake check --log-format internal-json -v o+e>| nom --json
+}
+
+def main [] {}

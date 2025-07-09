@@ -2,9 +2,12 @@
   username,
   homefile ? {},
   extra ? {},
-}: {inputs, system, ...}: {
+}: {
+  inputs,
+  system,
+  ...
+}: {
   home-manager = {
-
     useGlobalPkgs = true;
     useUserPackages = true;
 

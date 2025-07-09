@@ -6,7 +6,7 @@ config @ {profiles, ...}: let
 
   modulesPkgs = import ./module.nix config;
   genConfig = profileName: _profile: let
-    profile = _profile {inherit pkgs amixLib amixShells;};
+    profile = _profile.value {inherit pkgs amixLib amixShells;};
 
     pkgs = getPkgs config profile.system {config = optionalFieldAttr "pkgsConfig" profile;};
 
@@ -132,6 +132,8 @@ config @ {profiles, ...}: let
                   "wheel"
                 ];
               };
+
+              system.stateVersion = "25.05";
             }
             {
               home-manager = {
