@@ -5,17 +5,19 @@
     enable32Bit = true;
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.displayManager.gdm.wayland = true;
-  boot.initrd.kernelModules = ["nvidia"];
+  # boot.loader.grub.configurationLimit = 1;
+  # services.xserver.videoDrivers = [ "nvidia" ];
+  # services.xserver.displayManager.gdm.wayland = true;
+  # boot.initrd.kernelModules = ["nvidia"];
   # boot.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
   # boot.kernelParams = ["nvidia_drm.modeset=1" "nvidia_drm.fbdev=1"];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    open = true;
-    nvidiaPersistenced = false;
-    forceFullCompositionPipeline = true;
-  };
+  # hardware.nvidia = {
+  #   modesetting.enable = true;
+  #   nvidiaSettings = true;
+  #   nvidiaPersistenced = false;
+  #   open = false;
+  #   forceFullCompositionPipeline = true;
+  # };
 
   # services.xserver.videoDrivers = ["nvidia"];
   # boot.kernelModules = ["nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm"];
