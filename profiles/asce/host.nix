@@ -13,6 +13,7 @@
 
     packages = with pkgs; [
       discord
+      vesktop
       fd
       firefox
       flameshot
@@ -53,6 +54,9 @@
       swaylock
       cmake
       gnumake
+
+      fuzzel
+      prismlauncher
     ];
   };
 
@@ -63,10 +67,11 @@
 
   services.postgresql.enable = true;
 
-  services.displayManager.sddm = {
+  services.xserver.displayManager.gdm = {
     enable = true;
-    theme = "catppuccin-mocha";
-    package = pkgs.kdePackages.sddm;
+    wayland = true;
+    # theme = "catppuccin-mocha";
+    # package = pkgs.kdePackages.sddm;
   };
 
   services.xserver.desktopManager.gnome = {
@@ -80,22 +85,22 @@
 
   environment.variables = {
     GCM_CREDENTIAL_STORE = "cache";
-    NIX_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "1";
   };
 
   environment.sessionVariables = {
     GCM_CREDENTIAL_STORE = "cache";
-    NIX_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "1";
   };
 
   environment.systemPackages = with pkgs; [
-    (catppuccin-sddm.override {
-      flavor = "mocha";
-      font = "Noto Sans";
-      fontSize = "9";
-      # background = "${../../suzume_door.jpg}";
-      loginBackground = true;
-    })
+    # (catppuccin-sddm.override {
+    #   flavor = "mocha";
+    #   font = "Noto Sans";
+    #   fontSize = "9";
+    #   # background = "${../../suzume_door.jpg}";
+    #   loginBackground = true;
+    # })
   ];
 
   programs.niri.enable = true;

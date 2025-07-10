@@ -1,7 +1,7 @@
 {
   username,
   homefile ? {},
-  extra ? {},
+  extra ? (_: []),
 }: {
   inputs,
   system,
@@ -10,6 +10,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "backup";
 
     extraSpecialArgs = {
       inherit inputs;
@@ -17,7 +18,7 @@
     };
 
     users.${username} = {
-      imports = [homefile extra];
+      imports = (extra inputs) ++ [homefile];
 
       home.stateVersion = "23.11";
     };

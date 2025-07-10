@@ -22,7 +22,7 @@
   in {
     packages = selfPackages;
 
-    overlays.default = import ./overlays/awesome.nix;
+    overlays.default = import ./overlays inputs;
 
     nixosConfigurations = {
       asce = inputs.nixpkgs.lib.nixosSystem {
@@ -44,6 +44,8 @@
           ./system
 
           {nixpkgs.overlays = [self.overlays.default fenix.overlays.default];}
+
+          inputs.niri.nixosModules.niri
 
           ./profiles/host.nix
           ./profiles/${hostName}/host.nix
@@ -101,6 +103,13 @@
     matugen = {
       url = "github:InioX/matugen";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Niri WM config 
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
     # Nix Index Updated

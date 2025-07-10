@@ -1,6 +1,6 @@
 {
   # nh default flake
-  environment.variables.FLAKE = "/home/apika/dotfiles";
+  environment.variables.FLAKE = "/home/apika/asce";
 
   programs.nh = {
     enable = true;
