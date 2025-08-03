@@ -69,11 +69,11 @@
 
   services.postgresql.enable = true;
 
-  services.xserver.displayManager.gdm = {
+  services.xserver.displayManager.sddm = {
     enable = true;
-    wayland = true;
-    # theme = "catppuccin-mocha";
-    # package = pkgs.kdePackages.sddm;
+    # wayland = true;
+    theme = "catppuccin-mocha";
+    package = pkgs.kdePackages.sddm;
   };
 
   services.xserver.desktopManager.gnome = {
@@ -87,22 +87,22 @@
 
   environment.variables = {
     GCM_CREDENTIAL_STORE = "cache";
-    NIXOS_OZONE_WL = "1";
+    # NIXOS_OZONE_WL = "1";
   };
 
   environment.sessionVariables = {
     GCM_CREDENTIAL_STORE = "cache";
-    NIXOS_OZONE_WL = "1";
+    # NIXOS_OZONE_WL = "1";
   };
 
   environment.systemPackages = with pkgs; [
-    # (catppuccin-sddm.override {
-    #   flavor = "mocha";
-    #   font = "Noto Sans";
-    #   fontSize = "9";
-    #   # background = "${../../suzume_door.jpg}";
-    #   loginBackground = true;
-    # })
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      font = "Noto Sans";
+      fontSize = "9";
+      # background = "${../../suzume_door.jpg}";
+      loginBackground = true;
+    })
   ];
 
   programs.niri.enable = true;
@@ -113,8 +113,8 @@
     xwayland.enable = true;
   };
 
-  xdg.portal.wlr.enable = lib.mkForce true;
-  programs.xwayland.enable = lib.mkForce true;
+  # xdg.portal.wlr.enable = lib.mkForce true;
+  # programs.xwayland.enable = lib.mkForce true;
 
   services.xserver = {
     enable = true;
