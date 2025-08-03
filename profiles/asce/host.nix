@@ -87,12 +87,12 @@
 
   environment.variables = {
     GCM_CREDENTIAL_STORE = "cache";
-    # NIXOS_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "1";
   };
 
   environment.sessionVariables = {
     GCM_CREDENTIAL_STORE = "cache";
-    # NIXOS_OZONE_WL = "1";
+    NIXOS_OZONE_WL = "1";
   };
 
   environment.systemPackages = with pkgs; [
@@ -113,8 +113,8 @@
     xwayland.enable = true;
   };
 
-  # xdg.portal.wlr.enable = lib.mkForce true;
-  # programs.xwayland.enable = lib.mkForce true;
+  xdg.portal.wlr.enable = lib.mkForce true;
+  programs.xwayland.enable = lib.mkForce true;
 
   services.xserver = {
     enable = true;
