@@ -57,6 +57,8 @@
 
       fuzzel
       prismlauncher
+
+      wl-clipboard-rs
     ];
   };
 

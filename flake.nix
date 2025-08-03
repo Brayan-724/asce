@@ -124,6 +124,13 @@
       inputs.flake-utils.follows = "flake-utils";
     };
 
+    sss = {
+      url ="github:Brayan-724/sss";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.fenix.follows = "fenix";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
     zen-browser.url = "github:MarceColl/zen-browser-flake";
   };
 }

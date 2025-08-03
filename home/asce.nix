@@ -22,8 +22,20 @@
     fenix.stable.toolchain
   ];
 
+  programs.sss = {
+    enable = true;
+    code.enable = true;
+  };
 
   programs.niri.settings = {
+    spawn-at-startup = let
+      makeCommand = command: {
+        command = [command];
+      };
+    in [
+      (makeCommand "${pkgs.xwayland-satellite}/bin/xwayland-satellite")
+    ];
+
     input = {
       focus-follows-mouse.enable = true;
       keyboard = {

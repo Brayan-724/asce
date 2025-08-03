@@ -1,6 +1,6 @@
 {
   # nh default flake
-  environment.variables.FLAKE = "/home/apika/asce";
+  environment.variables.NH_FLAKE = "/home/apika/asce";
 
   programs.nh = {
     enable = true;
