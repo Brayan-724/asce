@@ -18,7 +18,7 @@
     # forceFullCompositionPipeline = true;
     modesetting.enable = false;
     nvidiaSettings = true;
-    nvidiaPersistenced = true;
+    nvidiaPersistenced = false; # Until https://github.com/NixOS/nixpkgs/pull/439514 gets merged
     powerManagement.enable = true;
     prime = {
       offload.enable = true;

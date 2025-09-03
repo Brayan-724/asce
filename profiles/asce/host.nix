@@ -12,6 +12,8 @@
     shell = pkgs.nushell;
 
     packages = with pkgs; [
+      bottom
+
       discord
       vesktop
       fd
@@ -32,8 +34,6 @@
       typescript-language-server
       svelte-language-server
       vscode-langservers-extracted
-
-      packages.thorium
 
       docker-compose
       nix-output-monitor

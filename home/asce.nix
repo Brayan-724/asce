@@ -1,4 +1,8 @@
-{inputs, pkgs, config, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ./base
 
@@ -32,6 +36,86 @@
     # use NixOs module
     package = null;
     portalPackage = null;
+
+    settings = {
+      bind =
+        [
+          "SUPER, Return, exec, ${pkgs.kitty}/bin/kitty"
+          "SUPER, P, exec, ${pkgs.sherlock-launcher}/bin/sherlock"
+          "SUPER_SHIFT, P, exec, ${pkgs.flameshot}/bin/flameshot gui"
+
+          # Discord keybind
+          ", mouse:276, sendshortcut, CTRL_SHIFT, M, class:^(discord)$"
+
+          # Window bindings
+          "SUPER, Q, killactive"
+          "SUPER_SHIFT, Q, forcekillactive"
+          "SUPER, F, togglefloating"
+          "SUPER, D, fullscreen"
+
+          "SUPER, H, movefocus, l"
+          "SUPER, J, movefocus, d"
+          "SUPER, K, movefocus, u"
+          "SUPER, L, movefocus, r"
+
+          "SUPER_SHIFT, H, movewindow, l"
+          "SUPER_SHIFT, J, movewindow, d"
+          "SUPER_SHIFT, K, movewindow, u"
+          "SUPER_SHIFT, L, movewindow, r"
+        ]
+        ++ (
+          # workspaces
+          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+          builtins.concatLists (builtins.genList (
+              i: let
+                ws = i + 1;
+              in [
+                "SUPER, code:1${toString i}, workspace, ${toString ws}"
+                "SUPER_SHIFT, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
+              ]
+            )
+            9)
+        );
+
+      bindm = [
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
+        "SUPER_SHIFT, mouse:272, togglefloating"
+      ];
+
+      binds = {
+        drag_threshold = 10;
+      };
+
+      monitor = [
+        "eDP-1, 1920x1080@60, 0x0, 1"
+        "HDMI-A-1, 1280x1024@60, 1920x0, 1, transform, 1"
+      ];
+
+      decoration = {
+        rounding = 5;
+      };
+
+      ecosystem = {
+        no_update_news = true;
+        no_donation_nag = true;
+        enforce_permissions = true;
+      };
+
+      input = {
+        kb_layout = "us";
+        kb_variant = "altgr-intl";
+        kb_options = "grp:alt_space_toggle";
+
+        mouse_refocus = false;
+
+        touchpad = {
+          disable_while_typing = true;
+          natural_scroll = true;
+          middle_button_emulation = true;
+        };
+      };
+    };
   };
 
   programs.niri.settings = {
@@ -53,7 +137,7 @@
         };
       };
     };
-    
+
     outputs."eDP-1" = {
       mode.width = 1920;
       mode.height = 1080;
@@ -80,12 +164,12 @@
       "Mod+Return".action.spawn = "kitty";
       "Mod+Tab".action.spawn = "fuzzel";
 
-      "Mod+S".action = screenshot-window { write-to-disk = false; };
+      "Mod+S".action = screenshot-window {write-to-disk = false;};
       "Mod+Print".action = screenshot-window;
       "Mod+Shift+S".action = screenshot;
-      
+
       "Mod+Shift+T".action = toggle-debug-tint;
-      
+
       "Mod+W".action = close-window;
       "Mod+D".action = maximize-column;
       "Mod+F".action = toggle-window-floating;
@@ -98,12 +182,12 @@
       "Mod+L".action = focus-column-or-monitor-right;
       "Mod+J".action = focus-window-or-workspace-down;
       "Mod+K".action = focus-window-or-workspace-up;
-      
+
       "Mod+Shift+H".action = move-column-left-or-to-monitor-left;
       "Mod+Shift+L".action = move-column-right-or-to-monitor-right;
       "Mod+Shift+J".action = move-window-down-or-to-workspace-down;
       "Mod+Shift+K".action = move-window-up-or-to-workspace-up;
-      
+
       "Mod+1".action.focus-workspace = 1;
       "Mod+2".action.focus-workspace = 2;
       "Mod+3".action.focus-workspace = 3;

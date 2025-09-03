@@ -86,7 +86,10 @@
 
     # rest of inputs, alphabetical order
 
-    fenix.url = "github:nix-community/fenix";
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -98,7 +101,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -111,7 +114,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Niri WM config 
+    # Niri WM config
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -125,9 +128,9 @@
     };
 
     sss = {
-      url ="github:Brayan-724/sss";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.fenix.follows = "fenix";
+      url = "github:SergioRibera/sss";
+      # inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.fenix.follows = "fenix";
       inputs.flake-utils.follows = "flake-utils";
     };
   };
@@ -211,3 +214,4 @@
 #     zen-browser.url = "github:MarceColl/zen-browser-flake";
 #   };
 # }
+
