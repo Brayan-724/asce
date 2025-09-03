@@ -33,10 +33,7 @@
       svelte-language-server
       vscode-langservers-extracted
 
-      flatpak
-
       packages.thorium
-      inputs.zen-browser.packages."${system}".generic
 
       docker-compose
       nix-output-monitor
@@ -59,6 +56,7 @@
       prismlauncher
 
       wl-clipboard-rs
+      figma-linux
     ];
   };
 
@@ -69,7 +67,7 @@
 
   services.postgresql.enable = true;
 
-  services.xserver.displayManager.sddm = {
+  services.displayManager.sddm = {
     enable = true;
     # wayland = true;
     theme = "catppuccin-mocha";
@@ -113,8 +111,14 @@
     xwayland.enable = true;
   };
 
-  xdg.portal.wlr.enable = lib.mkForce true;
+  # xdg.portal.wlr.enable = lib.mkForce true;
   programs.xwayland.enable = lib.mkForce true;
+
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
 
   services.xserver = {
     enable = true;

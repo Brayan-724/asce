@@ -9,6 +9,7 @@
       "https://nix-gaming.cachix.org"
       "https://fortuneteller2k.cachix.org"
       "https://cosmic.cachix.org/"
+      "https://hyprland.cachix.org"
     ];
 
     trusted-public-keys = [
@@ -19,6 +20,7 @@
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
       "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     ];
   };
 }

@@ -41,7 +41,7 @@
     pulse.enable = true;
   };
 
-  # services.flatpak.enable = true;
+  services.flatpak.enable = true;
 
   # TODO: compresses half the ram for use as swap
   #  zramSwap = {

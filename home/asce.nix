@@ -1,4 +1,4 @@
-{pkgs, config, ...}: {
+{inputs, pkgs, config, ...}: {
   imports = [
     ./base
 
@@ -25,6 +25,13 @@
   programs.sss = {
     enable = true;
     code.enable = true;
+  };
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    # use NixOs module
+    package = null;
+    portalPackage = null;
   };
 
   programs.niri.settings = {

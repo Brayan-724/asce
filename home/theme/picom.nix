@@ -32,9 +32,9 @@
       xrender-sync-fence = true;
     '';
   in {
-    enable = true;
+    enable = false;
 
-    extraArgs = ["--config" "${picom-conf}"];
+    extraArgs = ["--config" "${picom-conf}" "-b"];
 
     settings = {};
   };

@@ -1,35 +1,33 @@
 {
-  inputs,
   pkgs,
   ...
-}: let
-  marketplace = inputs.nix-vscode-extensions.extensions.${pkgs.system}.vscode-marketplace;
-in {
+}:{
   programs.vscode = {
-    enable = true;
-    enableExtensionUpdateCheck = true;
-    enableUpdateCheck = false;
+    enable = false;
     mutableExtensionsDir = true;
-    extensions =
-      (with pkgs.vscode-extensions; [
-        dart-code.flutter
 
-        catppuccin.catppuccin-vsc-icons
-        catppuccin.catppuccin-vsc
-      ])
-      ++ (with marketplace; [
+    profiles.default = {
+      enableExtensionUpdateCheck = true;
+      enableUpdateCheck = false;
+      extensions =
+        (with pkgs.vscode-extensions; [
+          dart-code.flutter
+
+          catppuccin.catppuccin-vsc-icons
+          catppuccin.catppuccin-vsc
         ]);
 
-    userSettings = {
-      "editor.fontFamily" = "GeistMono Nerd Font, Catppuccin Mocha, 'monospace', monospace";
-      "editor.fontSize" = 14;
-      "editor.fontLigatures" = true;
-      "editor.formatOnSave" = true;
+      userSettings = {
+        "editor.fontFamily" = "GeistMono Nerd Font, Catppuccin Mocha, 'monospace', monospace";
+        "editor.fontSize" = 14;
+        "editor.fontLigatures" = true;
+        "editor.formatOnSave" = true;
 
-      "file.autoSave" = "afterDelay";
+        "file.autoSave" = "afterDelay";
 
-      "workbench.colorTheme" = "Catppuccin Mocha";
-      "workbench.iconTheme" = "catppuccin-mocha";
+        "workbench.colorTheme" = "Catppuccin Mocha";
+        "workbench.iconTheme" = "catppuccin-mocha";
+      };
     };
   };
 }
