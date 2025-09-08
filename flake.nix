@@ -127,6 +127,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    simplemoji = {
+      url = "github:SergioRibera/simplemoji";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
     sss = {
       url = "github:SergioRibera/sss";
       # inputs.nixpkgs.follows = "nixpkgs";

@@ -38,11 +38,15 @@
     portalPackage = null;
 
     settings = {
-      bind =
+      bind = let
+        wl-copy = "${pkgs.wl-clipboard-rs}/bin/wl-copy";
+      in
         [
           "SUPER, Return, exec, ${pkgs.kitty}/bin/kitty"
           "SUPER, P, exec, ${pkgs.sherlock-launcher}/bin/sherlock"
           "SUPER_SHIFT, P, exec, ${pkgs.flameshot}/bin/flameshot gui"
+          "SUPER, S, exec, ${pkgs.sss}/bin/sss --area \"$(${pkgs.slurp}/bin/slurp -d)\" -o raw | ${wl-copy}"
+          "SUPER, Period, exec, ${pkgs.simplemoji}/bin/simplemoji -t medium-light -soc '${wl-copy}'"
 
           # Discord keybind
           ", mouse:276, sendshortcut, CTRL_SHIFT, M, class:^(discord)$"
@@ -52,6 +56,7 @@
           "SUPER_SHIFT, Q, forcekillactive"
           "SUPER, F, togglefloating"
           "SUPER, D, fullscreen"
+          "SUPER, O, swapactiveworkspaces, current +1"
 
           "SUPER, H, movefocus, l"
           "SUPER, J, movefocus, d"
@@ -80,7 +85,6 @@
       bindm = [
         "SUPER, mouse:272, movewindow"
         "SUPER, mouse:273, resizewindow"
-        "SUPER_SHIFT, mouse:272, togglefloating"
       ];
 
       binds = {
@@ -99,7 +103,7 @@
       ecosystem = {
         no_update_news = true;
         no_donation_nag = true;
-        enforce_permissions = true;
+        enforce_permissions = false;
       };
 
       input = {
