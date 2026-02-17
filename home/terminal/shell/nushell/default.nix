@@ -39,7 +39,12 @@ white) - %an%C(reset)'";
       $env.config.show_banner = false;
 
       use std;
-      std ellie;
+      use std/util *;
+
+      std ellie | print;
+      print "";
+
+      source ~/nushell.nu;
     '';
   };
 

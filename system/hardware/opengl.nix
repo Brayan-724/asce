@@ -14,7 +14,7 @@
   # boot.kernelParams = ["nvidia_drm.modeset=1" "nvidia_drm.fbdev=1"];
   hardware.nvidia = {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-    open = true;
+    open = false;
     # forceFullCompositionPipeline = true;
     modesetting.enable = false;
     nvidiaSettings = true;

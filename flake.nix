@@ -37,11 +37,21 @@
         specialArgs = {
           inherit inputs system;
 
+          pkgs-unstable = import inputs.nixpkgs-unstable {
+            inherit system;
+
+            config = {
+              allowUnfree = true;
+            };
+          };
+
           packages = selfPackages.${system};
         };
 
         modules = [
           ./system
+
+          inputs.agenix.nixosModules.default
 
           {nixpkgs.overlays = [self.overlays.default fenix.overlays.default];}
 
@@ -69,7 +79,8 @@
     # global, so they can be `.follow`ed
     systems.url = "github:nix-systems/default-linux";
 
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-std.url = "github:chessai/nix-std";
 
     flake-compat.url = "github:edolstra/flake-compat";
@@ -86,6 +97,8 @@
 
     # rest of inputs, alphabetical order
 
+    agenix.url = "github:ryantm/agenix";
+
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -98,14 +111,15 @@
 
     # Configuration Manager
     hm = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
+    hyprland.url = "github:hyprwm/Hyprland";
+
+    hypr-dynamic-cursors = {
+        url = "github:VirtCode/hypr-dynamic-cursors";
+        inputs.hyprland.follows = "hyprland";
     };
 
     # Palette Manager

@@ -6,6 +6,7 @@
     ./hardware
     ./nix
     ./services
+    ./secrets
 
     ./basics
   ];

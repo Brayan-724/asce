@@ -3,6 +3,7 @@
     ./backlight.nix
     ./location.nix
     ./power.nix
+    ./udev.nix
     # ./xwaylandvideobridge.nix
   ];
 

@@ -5,11 +5,17 @@
     wifi.powersave = true;
   };
 
-  services = {
-    openssh = {
+  programs = {
+    ssh = {
       enable = true;
-      settings.UseDns = true;
+      extraConfig = ''
+        # Add any extra raw config lines here
+        ServerAliveInterval 60
+      '';
     };
+  };
+
+  services = {
     gnome.glib-networking.enable = true;
 
     # DNS resolver

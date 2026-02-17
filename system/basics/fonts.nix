@@ -11,7 +11,7 @@
       # normal fonts
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       roboto
 
       maple-mono.NF-CN

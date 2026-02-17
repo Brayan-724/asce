@@ -1,11 +1,12 @@
 {
   pkgs,
+  pkgs-unstable,
   packages,
   ...
 }: {
   boot = {
-    # use latest kernel
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelModules = [ "v4l2loopback" ];
+    extraModulePackages = [ pkgs.linuxPackages.v4l2loopback ];
 
     tmp.cleanOnBoot = true;
 
@@ -30,9 +31,5 @@
       theme = "mac-style";
       themePackages = [packages.mac-style];
     };
-
-    # load modules on boot
-    kernelParams = [
-    ];
   };
 }

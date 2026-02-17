@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   imports = [
@@ -37,6 +38,8 @@
     package = null;
     portalPackage = null;
 
+    plugins = [ inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors ];
+
     settings = {
       bind = let
         wl-copy = "${pkgs.wl-clipboard-rs}/bin/wl-copy";
@@ -46,7 +49,7 @@
           "SUPER, P, exec, ${pkgs.sherlock-launcher}/bin/sherlock"
           "SUPER_SHIFT, P, exec, ${pkgs.flameshot}/bin/flameshot gui"
           "SUPER, S, exec, ${pkgs.sss}/bin/sss --area \"$(${pkgs.slurp}/bin/slurp -d)\" -o raw | ${wl-copy}"
-          "SUPER, Period, exec, ${pkgs.simplemoji}/bin/simplemoji -t medium-light -soc '${wl-copy}'"
+          # "SUPER, Period, exec, ${pkgs.simplemoji}/bin/simplemoji -t medium-light -soc '${wl-copy}'"
 
           # Discord keybind
           ", mouse:276, sendshortcut, CTRL_SHIFT, M, class:^(discord)$"
@@ -119,6 +122,11 @@
           middle_button_emulation = true;
         };
       };
+
+      "plugin:dynamic-cursors" = {
+        enabled = true;
+        mode = "rotate";
+      };
     };
   };
 
@@ -136,7 +144,7 @@
       keyboard = {
         xkb = {
           layout = "us";
-          variant = "altgr-intl";
+          variant = "altgr-intl-unicode";
           options = "grp:alt_space_toggle";
         };
       };
@@ -162,15 +170,15 @@
       position.y = 0;
     };
 
-    binds = with config.lib.niri.actions; {
+    binds = with config.lib.niri.actions; with inputs.niri.lib.kdl; {
       "Mod+E".action = quit;
 
       "Mod+Return".action.spawn = "kitty";
       "Mod+Tab".action.spawn = "fuzzel";
 
-      "Mod+S".action = screenshot-window {write-to-disk = false;};
-      "Mod+Print".action = screenshot-window;
-      "Mod+Shift+S".action = screenshot;
+      "Mod+S".action = magic-leaf "screenshot-window" {write-to-disk = false;};
+      "Mod+Print".action = magic-leaf "screenshot-window";
+      "Mod+Shift+S".action = magic-leaf "screenshot";
 
       "Mod+Shift+T".action = toggle-debug-tint;
 

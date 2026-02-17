@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  kotlin-lsp = pkgs.callPackage ./kotlin-lsp { inherit pkgs; };
   mac-style = pkgs.callPackage ./plymouth-macstyle {};
   miracode = pkgs.callPackage ./miracode {inherit (pkgs) stdenv;};
   # instant repl with automatic flake loading
