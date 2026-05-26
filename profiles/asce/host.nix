@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  pkgs-unstable,
   lib,
   packages,
   ...
@@ -11,7 +12,12 @@
     packages = with pkgs; [
       tree-sitter
       packages.kotlin-lsp
-      jetbrains.idea-community-bin
+      pkgs-unstable.jetbrains.idea
+      chromium
+      vial
+      qmk_hid
+      qmk
+      via
 
       awscli2
       insomnia
@@ -71,6 +77,8 @@
       wlx-overlay-s
       wayvr-dashboard
       figma-linux
+
+      pkgs-unstable.antigravity
     ];
   };
 
@@ -79,7 +87,17 @@
     enable = false;
     openFirewall = true;
   };
-  programs.nix-ld.enable = true;
+
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      stdenv
+      libgcc
+      libllvm
+      portaudio
+    ];
+  };
+
   programs.obs-studio.enable = true;
   programs.obs-studio.enableVirtualCamera = true;
   programs.steam.enable = true;
@@ -98,7 +116,7 @@
     autoStart = true;
 
     # If you're running this with an nVidia GPU and want to use GPU Encoding (and don't otherwise have CUDA enabled system wide), you need to override the cudaSupport variable.
-    package = pkgs.wivrn.override {cudaSupport = true;};
+    package = pkgs-unstable.wivrn.override {cudaSupport = true;};
 
     config.json = {
       applications = [ pkgs.wlx-overlay-s pkgs.wayvr-dashboard ];
@@ -181,5 +199,20 @@
     # };
 
     windowManager.leftwm.enable = true;
+  };
+
+  hardware.keyboard.qmk = {
+    enable = true;
+    keychronSupport = true;
+  };
+
+  networking = {
+    hosts = {
+      "localhost" = [ "local.synapbox.com" ];
+    };
+    firewall = {
+      enable = true;
+      trustedInterfaces = [ "docker0" ];
+    };
   };
 }

@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  secrets,
   inputs,
   ...
 }: {
@@ -23,13 +24,30 @@
     ./theme/picom.nix
   ];
 
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
   home.packages = with pkgs; [
-    fenix.stable.toolchain
+    fenix.complete.toolchain
   ];
 
   programs.sss = {
     enable = true;
     code.enable = true;
+  };
+
+  xdg.enable = true;
+
+  programs.ssh = {
+    enable = true;
+    # matchBlocks = {
+    #   "ovh-hackalakin" = {
+    #     hostname = builtins.readFile config.age.secrets.apika.path;
+    #     user = "apika";
+    #     identityFile = config.home + "/.ssh/ovh-hackalakin/ssh-key-nophrase";
+    #   };
+    # };
   };
 
   wayland.windowManager.hyprland = {

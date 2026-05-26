@@ -5,16 +5,6 @@
     wifi.powersave = true;
   };
 
-  programs = {
-    ssh = {
-      enable = true;
-      extraConfig = ''
-        # Add any extra raw config lines here
-        ServerAliveInterval 60
-      '';
-    };
-  };
-
   services = {
     gnome.glib-networking.enable = true;
 

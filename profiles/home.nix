@@ -18,7 +18,12 @@
     };
 
     users.${username} = {
-      imports = (extra inputs) ++ [homefile];
+      imports =
+        (extra inputs)
+        ++ [
+          ../system/secrets
+          homefile
+        ];
 
       home.stateVersion = "23.11";
     };

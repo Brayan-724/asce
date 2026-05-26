@@ -3,6 +3,11 @@ import ../home.nix {
   homefile = ../../home/asce.nix;
 
   extra = inputs: [
-    { imports = [inputs.sss.nixosModules.home-manager]; }
+    {
+      imports = [
+        inputs.sss.nixosModules.home-manager
+        inputs.agenix.homeManagerModules.default
+      ]; 
+    }
   ];
 }
