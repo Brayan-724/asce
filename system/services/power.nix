@@ -1,9 +1,9 @@
 {
   services = {
     logind = {
-      powerKey = "suspend";
-      lidSwitch = "suspend";
-      lidSwitchExternalPower = "lock";
+      settings.Login.HandleLidSwitch = "suspend";
+      settings.Login.HandlePowerKey = "suspend";
+      settings.Login.HandleLidSwitchExternalPower = "lock";
     };
 
     power-profiles-daemon.enable = true;

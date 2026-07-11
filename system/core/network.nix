@@ -2,8 +2,10 @@
   networking.networkmanager = {
     enable = true;
     dns = "systemd-resolved";
-    wifi.powersave = true;
+    wifi.powersave = false;
+    wifi.backend = "iwd";
   };
+  networking.wireless.iwd.enable = true;
 
   services = {
     gnome.glib-networking.enable = true;
