@@ -10,6 +10,7 @@
     shell = pkgs.nushell;
 
     packages = with pkgs; [
+      teamtype
       tree-sitter
       packages.kotlin-lsp
       pkgs-unstable.jetbrains.idea
@@ -32,7 +33,7 @@
       easyeffects
       bottom
 
-      discord
+      pkgs-unstable.discord
       vesktop
       fd
       firefox
@@ -45,9 +46,11 @@
       ripgrep
       xclip
 
+      # Nix
       alejandra
       nixd
 
+      # JS
       deno
       typescript-language-server
       svelte-language-server
@@ -64,6 +67,7 @@
       tea
       git-credential-manager
 
+      # asdsd
       alacritty
       fuzzel
       swaylock
@@ -74,19 +78,24 @@
       prismlauncher
 
       wl-clipboard-rs
-      wlx-overlay-s
-      wayvr-dashboard
+      wayvr
+
       figma-linux
 
       pkgs-unstable.antigravity
+      pkgs.android-tools
+
+      pkgs-unstable.claude-code
+      qpwgraph
     ];
   };
 
-  programs.adb.enable = true;
   programs.alvr = {
     enable = false;
     openFirewall = true;
   };
+
+  virtualisation.waydroid.enable = true;
 
   programs.nix-ld = {
     enable = true;
@@ -102,24 +111,17 @@
   programs.obs-studio.enableVirtualCamera = true;
   programs.steam.enable = true;
 
-  services.postgresql.enable = true;
+  # services.postgresql.enable = true;
   services.wivrn = {
     enable = true;
     openFirewall = true;
-
-    # Write information to /etc/xdg/openxr/1/active_runtime.json, VR applications
-    # will automatically read this and work with WiVRn (Note: This does not currently
-    # apply for games run in Valve's Proton)
-    defaultRuntime = true;
-
-    # Run WiVRn as a systemd service on startup
-    autoStart = true;
+    autoStart = false;
 
     # If you're running this with an nVidia GPU and want to use GPU Encoding (and don't otherwise have CUDA enabled system wide), you need to override the cudaSupport variable.
     package = pkgs-unstable.wivrn.override {cudaSupport = true;};
 
     config.json = {
-      applications = [ pkgs.wlx-overlay-s pkgs.wayvr-dashboard ];
+      applications = [pkgs.wayvr];
     };
   };
 
@@ -130,8 +132,13 @@
     package = pkgs.kdePackages.sddm;
   };
 
-  services.xserver.desktopManager.gnome = {
+  services.desktopManager.gnome = {
     enable = true;
+  };
+
+  virtualisation.podman = {
+    enable = true;
+    enableNvidia = true;
   };
 
   virtualisation.docker = {
@@ -167,15 +174,13 @@
     inputs.agenix.packages."${pkgs.stdenv.hostPlatform.system}".default
   ];
 
-  programs.niri.enable = true;
-
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
     xwayland.enable = true;
   };
 
-  # xdg.portal.wlr.enable = lib.mkForce true;
+  xdg.portal.wlr.enable = lib.mkForce true;
   programs.xwayland.enable = lib.mkForce true;
 
   programs.hyprland = {
@@ -208,11 +213,11 @@
 
   networking = {
     hosts = {
-      "localhost" = [ "local.synapbox.com" ];
+      "localhost" = ["local.synapbox.com" ];
     };
     firewall = {
       enable = true;
-      trustedInterfaces = [ "docker0" ];
+      trustedInterfaces = ["docker0" "waydroid0"];
     };
   };
 }

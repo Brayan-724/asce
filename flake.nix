@@ -5,7 +5,6 @@
     self,
     nixpkgs,
     hm,
-    fenix,
     ...
   }: let
     hostName = "asce";
@@ -22,12 +21,12 @@
   in {
     packages = selfPackages;
 
-    overlays.default = import ./overlays inputs;
-
     nixosConfigurations = {
       asce = inputs.nixpkgs.lib.nixosSystem {
         pkgs = import inputs.nixpkgs {
           inherit system;
+
+          overlays = import ./overlays/default.nix inputs;
 
           config = {
             allowUnfree = true;
@@ -53,10 +52,6 @@
 
           inputs.agenix.nixosModules.default
 
-          {nixpkgs.overlays = [self.overlays.default fenix.overlays.default];}
-
-          inputs.niri.nixosModules.niri
-
           ./profiles/host.nix
           ./profiles/${hostName}/host.nix
 
@@ -79,7 +74,7 @@
     # global, so they can be `.follow`ed
     systems.url = "github:nix-systems/default-linux";
 
-    nixpkgs.url = "github:NixOS/nixpkgs/25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-std.url = "github:chessai/nix-std";
 
@@ -111,7 +106,7 @@
 
     # Configuration Manager
     hm = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -126,13 +121,6 @@
     matugen = {
       url = "github:InioX/matugen";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Niri WM config
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
 
     # Nix Index Updated

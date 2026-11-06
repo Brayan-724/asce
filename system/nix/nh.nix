@@ -8,7 +8,7 @@
     # weekly cleanup
     clean = {
       enable = true;
-      extraArgs = "--keep-since 15d";
+      extraArgs = "--keep-since 14d";
     };
   };
 }

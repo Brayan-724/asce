@@ -1,17 +1,13 @@
 {
   pkgs,
-  config,
-  secrets,
   inputs,
+  lib,
   ...
 }: {
   imports = [
     ./base
 
     ./desktop/cursor.nix
-    ./desktop/eww
-    ./desktop/leftwm
-    ./desktop/sway
     ./editor/neovim
     ./editor/vscode
     ./terminal/foot
@@ -48,46 +44,104 @@
     #     identityFile = config.home + "/.ssh/ovh-hackalakin/ssh-key-nophrase";
     #   };
     # };
+
+    enableDefaultConfig = false;
+
+    # Default Config
+    settings."*" = {
+      ForwardAgent = true;
+      AddKeysToAgent = "yes";
+      Compression = false;
+      ServerAliveInterval = 60;
+      ServerAliveCountMax = 3;
+      HashKnownHosts = false;
+      UserKnownHostsFile = "~/.ssh/known_hosts";
+      ControlMaster = "no";
+      ControlPath = "~/.ssh/master-%r@%n:%p";
+      ControlPersist = "no";
+    };
+
+    settings."git.apika.me" = {
+      hostname = "git.apika.me";
+      User = "git";
+      Port = "10002";
+      PreferredAuthentications = "publickey";
+      IdentityFile = "~/.ssh/apika.key";
+      IdentitiesOnly = "yes";
+    };
   };
+
+  services.hyprpolkitagent.enable = true;
 
   wayland.windowManager.hyprland = {
     enable = true;
     # use NixOs module
     package = null;
     portalPackage = null;
+    configType = "lua";
 
-    plugins = [ inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors ];
+    plugins = [inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors];
+
+    extraLuaFiles.config.content = ./desktop/hyprland.lua;
 
     settings = {
       bind = let
+        luaValue = str: lib.generators.toLua {} str;
+        mkBindC = cfg: k: cmd: {
+          _args = [
+            k
+            (lib.generators.mkLuaInline cmd)
+            cfg
+          ];
+        };
+        mkBind = mkBindC {};
+        mkBindM = mkBindC {mouse = true;};
+
+        exec = cmd: "hl.dsp.exec_cmd(${luaValue cmd})";
+        focus = direction: "hl.dsp.focus(${luaValue {inherit direction;}})";
+        workspace = workspace: "hl.dsp.focus(${luaValue {inherit workspace;}})";
+        windowMove = direction: "hl.dsp.window.move(${luaValue {inherit direction;}})";
+        windowDrag = "hl.dsp.window.drag()";
+        windowResize = "hl.dsp.window.resize()";
+        killActive = "hl.dsp.window.close()";
+        fullscreen = "hl.dsp.window.fullscreen({ action = \"toggle\"})";
+        toggleFloating = "hl.dsp.window.float({ action = \"toggle\"})";
+        forceKillActive = "hl.dsp.window.kill()";
+        windowWorkspace = workspace: "hl.dsp.window.move(${luaValue {inherit workspace;}})";
+
+        swapActiveWorkspaces = "hl.dsp.workspace.swap_monitors({monitor1 = 0; monitor2 = 1;})";
+
         wl-copy = "${pkgs.wl-clipboard-rs}/bin/wl-copy";
       in
         [
-          "SUPER, Return, exec, ${pkgs.kitty}/bin/kitty"
-          "SUPER, P, exec, ${pkgs.sherlock-launcher}/bin/sherlock"
-          "SUPER_SHIFT, P, exec, ${pkgs.flameshot}/bin/flameshot gui"
-          "SUPER, S, exec, ${pkgs.sss}/bin/sss --area \"$(${pkgs.slurp}/bin/slurp -d)\" -o raw | ${wl-copy}"
+          (mkBind "SUPER + Return" (exec "${pkgs.kitty}/bin/kitty"))
+          (mkBind "SUPER + P" (exec "${pkgs.sherlock-launcher}/bin/sherlock"))
+          (mkBind "SUPER + SHIFT + P" (exec "${pkgs.flameshot}/bin/flameshot gui"))
+          (mkBind "SUPER + S" (exec "${pkgs.sss}/bin/sss --area \"$(${pkgs.slurp}/bin/slurp -d)\" -o raw | ${wl-copy}"))
           # "SUPER, Period, exec, ${pkgs.simplemoji}/bin/simplemoji -t medium-light -soc '${wl-copy}'"
 
           # Discord keybind
-          ", mouse:276, sendshortcut, CTRL_SHIFT, M, class:^(discord)$"
+          # ", mouse:276, sendshortcut, CTRL_SHIFT, M, class:^(discord)$"
 
           # Window bindings
-          "SUPER, Q, killactive"
-          "SUPER_SHIFT, Q, forcekillactive"
-          "SUPER, F, togglefloating"
-          "SUPER, D, fullscreen"
-          "SUPER, O, swapactiveworkspaces, current +1"
+          (mkBind "SUPER + Q" killActive)
+          (mkBind "SUPER + SHIFT + Q" forceKillActive)
+          (mkBind "SUPER + F" toggleFloating)
+          (mkBind "SUPER + D" fullscreen)
+          (mkBind "SUPER + O" swapActiveWorkspaces)
 
-          "SUPER, H, movefocus, l"
-          "SUPER, J, movefocus, d"
-          "SUPER, K, movefocus, u"
-          "SUPER, L, movefocus, r"
+          (mkBind "SUPER + H" (focus "left"))
+          (mkBind "SUPER + J" (focus "down"))
+          (mkBind "SUPER + K" (focus "up"))
+          (mkBind "SUPER + L" (focus "right"))
 
-          "SUPER_SHIFT, H, movewindow, l"
-          "SUPER_SHIFT, J, movewindow, d"
-          "SUPER_SHIFT, K, movewindow, u"
-          "SUPER_SHIFT, L, movewindow, r"
+          (mkBind "SUPER + SHIFT + H" (windowMove "left"))
+          (mkBind "SUPER + SHIFT + J" (windowMove "down"))
+          (mkBind "SUPER + SHIFT + K" (windowMove "up"))
+          (mkBind "SUPER + SHIFT + L" (windowMove "right"))
+
+          (mkBindM "SUPER + mouse:272" windowDrag)
+          (mkBindM "SUPER + mouse:273" windowResize)
         ]
         ++ (
           # workspaces
@@ -96,155 +150,62 @@
               i: let
                 ws = i + 1;
               in [
-                "SUPER, code:1${toString i}, workspace, ${toString ws}"
-                "SUPER_SHIFT, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
+                (mkBind "SUPER + ${toString i}" (workspace ws))
+                (mkBind "SUPER + SHIFT + ${toString i}" (windowWorkspace ws))
               ]
             )
-            9)
+            10)
         );
+      config = {
+        binds = {
+          drag_threshold = 10;
+        };
 
-      bindm = [
-        "SUPER, mouse:272, movewindow"
-        "SUPER, mouse:273, resizewindow"
-      ];
+        decoration = {
+          rounding = 5;
+        };
 
-      binds = {
-        drag_threshold = 10;
+        ecosystem = {
+          no_update_news = true;
+          no_donation_nag = true;
+          enforce_permissions = false;
+        };
+
+        input = {
+          kb_layout = "us";
+          kb_variant = "altgr-intl";
+          kb_options = "grp:alt_space_toggle";
+
+          mouse_refocus = false;
+
+          touchpad = {
+            disable_while_typing = true;
+            natural_scroll = true;
+            middle_button_emulation = true;
+          };
+        };
+
+        plugin.dynamic_cursors = {
+          enabled = true;
+          mode = "rotate";
+        };
       };
 
       monitor = [
-        "eDP-1, 1920x1080@60, 0x0, 1"
-        "HDMI-A-1, 1280x1024@60, 1920x0, 1, transform, 1"
+        {
+          output = "eDP-1";
+          mode = "1920x1080@60";
+          position = "0x0";
+          scale = 1;
+        }
+        {
+          output = "HDMI-A-1";
+          mode = "1280x1024@60";
+          position = "1920x0";
+          scale = 1;
+          transform = 1;
+        }
       ];
-
-      decoration = {
-        rounding = 5;
-      };
-
-      ecosystem = {
-        no_update_news = true;
-        no_donation_nag = true;
-        enforce_permissions = false;
-      };
-
-      input = {
-        kb_layout = "us";
-        kb_variant = "altgr-intl";
-        kb_options = "grp:alt_space_toggle";
-
-        mouse_refocus = false;
-
-        touchpad = {
-          disable_while_typing = true;
-          natural_scroll = true;
-          middle_button_emulation = true;
-        };
-      };
-
-      "plugin:dynamic-cursors" = {
-        enabled = true;
-        mode = "rotate";
-      };
-    };
-  };
-
-  programs.niri.settings = {
-    spawn-at-startup = let
-      makeCommand = command: {
-        command = [command];
-      };
-    in [
-      (makeCommand "${pkgs.xwayland-satellite}/bin/xwayland-satellite")
-    ];
-
-    input = {
-      focus-follows-mouse.enable = true;
-      keyboard = {
-        xkb = {
-          layout = "us";
-          variant = "altgr-intl-unicode";
-          options = "grp:alt_space_toggle";
-        };
-      };
-    };
-
-    outputs."eDP-1" = {
-      mode.width = 1920;
-      mode.height = 1080;
-      mode.refresh = 60.;
-      scale = 1.0;
-      position.x = 0;
-      position.y = 0;
-      focus-at-startup = true;
-    };
-
-    outputs."HDMI-A-1" = {
-      mode.width = 1280;
-      mode.height = 1024;
-      mode.refresh = 60.;
-      scale = 1.0;
-      transform.rotation = 90;
-      position.x = 1920;
-      position.y = 0;
-    };
-
-    binds = with config.lib.niri.actions; with inputs.niri.lib.kdl; {
-      "Mod+E".action = quit;
-
-      "Mod+Return".action.spawn = "kitty";
-      "Mod+Tab".action.spawn = "fuzzel";
-
-      "Mod+S".action = magic-leaf "screenshot-window" {write-to-disk = false;};
-      "Mod+Print".action = magic-leaf "screenshot-window";
-      "Mod+Shift+S".action = magic-leaf "screenshot";
-
-      "Mod+Shift+T".action = toggle-debug-tint;
-
-      "Mod+W".action = close-window;
-      "Mod+D".action = maximize-column;
-      "Mod+F".action = toggle-window-floating;
-      "Mod+Shift+F".action = fullscreen-window;
-
-      "Mod+Comma".action = consume-window-into-column;
-      "Mod+Semicolon".action = expel-window-from-column;
-
-      "Mod+H".action = focus-column-or-monitor-left;
-      "Mod+L".action = focus-column-or-monitor-right;
-      "Mod+J".action = focus-window-or-workspace-down;
-      "Mod+K".action = focus-window-or-workspace-up;
-
-      "Mod+Shift+H".action = move-column-left-or-to-monitor-left;
-      "Mod+Shift+L".action = move-column-right-or-to-monitor-right;
-      "Mod+Shift+J".action = move-window-down-or-to-workspace-down;
-      "Mod+Shift+K".action = move-window-up-or-to-workspace-up;
-
-      "Mod+1".action.focus-workspace = 1;
-      "Mod+2".action.focus-workspace = 2;
-      "Mod+3".action.focus-workspace = 3;
-      "Mod+4".action.focus-workspace = 4;
-      "Mod+5".action.focus-workspace = 5;
-      "Mod+6".action.focus-workspace = 6;
-      "Mod+7".action.focus-workspace = 7;
-      "Mod+8".action.focus-workspace = 8;
-      "Mod+9".action.focus-workspace = 9;
-      "Mod+Ctrl+1".action.move-column-to-workspace = 1;
-      "Mod+Ctrl+2".action.move-column-to-workspace = 2;
-      "Mod+Ctrl+3".action.move-column-to-workspace = 3;
-      "Mod+Ctrl+4".action.move-column-to-workspace = 4;
-      "Mod+Ctrl+5".action.move-column-to-workspace = 5;
-      "Mod+Ctrl+6".action.move-column-to-workspace = 6;
-      "Mod+Ctrl+7".action.move-column-to-workspace = 7;
-      "Mod+Ctrl+8".action.move-column-to-workspace = 8;
-      "Mod+Ctrl+9".action.move-column-to-workspace = 9;
-
-      "Mod+WheelScrollDown" = {
-        action = focus-workspace-down;
-        cooldown-ms = 150;
-      };
-      "Mod+WheelScrollUp" = {
-        action = focus-workspace-up;
-        cooldown-ms = 150;
-      };
     };
   };
 }

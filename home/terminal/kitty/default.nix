@@ -3,8 +3,8 @@
     enable = true;
 
     font = {
-      name = "Miracode Nerd Font";
-      size = 9;
+      name = "MiracodeNerd Font";
+      size = 10;
       package = packages.miracode;
     };
 

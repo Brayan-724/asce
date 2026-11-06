@@ -15,6 +15,8 @@
       enable = true;
       resyncTimer = "10m";
     };
+
+    nohang.enable = true;
   };
 
   # xdg.portal = {

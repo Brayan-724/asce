@@ -8,6 +8,8 @@ import ../home.nix {
         inputs.sss.nixosModules.home-manager
         inputs.agenix.homeManagerModules.default
       ]; 
+
+      nixpkgs.overlays = import ../../overlays/default.nix inputs;
     }
   ];
 }
