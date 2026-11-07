@@ -3,12 +3,15 @@
     enable = true;
     settings = {
       main = {
-        pad = "10x8 center";
-
-        font = "Miracode Nerd Font:weight=bold:size=11";
+        pad = "12x10";
+        font = "Miracode Nerd Font:weight=bold:size=10";
+        font-bold = "Miracode Nerd Font:weight=black:size=10";
       };
-      colors = {
-        alpha = 0.7;
+      colors-dark = {
+        blur = true;
+        alpha = 0.9;
+        alpha-mode = "matching";
+        background = "100e23";
       };
     };
   };

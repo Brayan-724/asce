@@ -25,6 +25,8 @@ stdenv.mkDerivation {
   '';
 
   installPhase = ''
+    runHook preInstall
+
     installFont Black
     installFont Bold
     installFont SemiBold
@@ -33,6 +35,8 @@ stdenv.mkDerivation {
     installFont Light
     installFont ExtraLight
     installFont Thin
+
+    runHook postInstall
   '';
 
   meta = with lib; {

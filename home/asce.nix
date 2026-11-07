@@ -114,7 +114,7 @@
         wl-copy = "${pkgs.wl-clipboard-rs}/bin/wl-copy";
       in
         [
-          (mkBind "SUPER + Return" (exec "${pkgs.kitty}/bin/kitty"))
+          (mkBind "SUPER + Return" (exec "${pkgs.foot}/bin/foot"))
           (mkBind "SUPER + P" (exec "${pkgs.sherlock-launcher}/bin/sherlock"))
           (mkBind "SUPER + SHIFT + P" (exec "${pkgs.flameshot}/bin/flameshot gui"))
           (mkBind "SUPER + S" (exec "${pkgs.sss}/bin/sss --area \"$(${pkgs.slurp}/bin/slurp -d)\" -o raw | ${wl-copy}"))
