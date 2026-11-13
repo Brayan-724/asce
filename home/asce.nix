@@ -73,6 +73,23 @@
 
   services.hyprpolkitagent.enable = true;
 
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      splash = false;
+      wallpaper = [
+        {
+          monitor = "eDP-1";
+          path = toString ../wallpapers/zero-two-hiro-look.jpg;
+        }
+        {
+          monitor = "HDMI-A-1";
+          path = toString ../wallpapers/zero-two-looking.jpg;
+        }
+      ];
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     # use NixOs module
@@ -84,9 +101,13 @@
 
     extraLuaFiles.config.content = ./desktop/hyprland.lua;
 
-    settings = {
+    settings = let
+      inherit (builtins) concatStringsSep isList concatLists genList;
+      luaValue = str: lib.generators.toLua {} str;
+      call = callee: args: "${callee}(${concatStringsSep "," (map luaValue args)})";
+      fromBody = body: if isList body then concatStringsSep "\n" body else body;
+    in {
       bind = let
-        luaValue = str: lib.generators.toLua {} str;
         mkBindC = cfg: k: cmd: {
           _args = [
             k
@@ -146,7 +167,7 @@
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (builtins.genList (
+          concatLists (genList (
               i: let
                 ws = i + 1;
               in [
@@ -206,6 +227,21 @@
           transform = 1;
         }
       ];
+
+      on = let
+        bind = event: body: {
+          _args = [
+            event
+            (lib.generators.mkLuaInline "function()\n  ${fromBody body}\nend")
+          ];
+        };
+      in [
+        (bind "hyprland.start" (call "hl.exec_cmd" ["noctalia"]))
+      ];
     };
+  };
+
+  programs.noctalia = {
+    enable = true;
   };
 }

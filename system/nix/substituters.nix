@@ -10,6 +10,7 @@
       "https://fortuneteller2k.cachix.org"
       "https://cosmic.cachix.org/"
       "https://hyprland.cachix.org"
+      "https://noctalia.cachix.org"
     ];
 
     trusted-substituters = [
@@ -22,6 +23,7 @@
       "https://fortuneteller2k.cachix.org"
       "https://cosmic.cachix.org/"
       "https://hyprland.cachix.org"
+      "https://noctalia.cachix.org"
     ];
 
     trusted-public-keys = [
@@ -33,6 +35,7 @@
       "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
       "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
   };
 }
